@@ -1,25 +1,49 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import "./index.css";
+import ListItems from './components/ListItems';
+import Login from './components/Login';
+import Detail from './components/Detail';
+import {ItemProvider} from './components/ItemContext';
+import Navbar from './components/Navbar';
 
-function App() {
+function PrivateRoute({ children, ...rest }) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Route
+      {...rest}
+      render={({ location }) =>
+        localStorage.getItem('logged') ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location }
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+
+function App(){
+  return (
+    <ItemProvider>
+      <Router>
+        <div className="App">
+        <Navbar />
+          <Switch>
+            <Route path="/login" exact component={Login} />
+            <Route path="/" exact component={ListItems}  />
+            <PrivateRoute path="/:id">
+              <Detail />
+            </PrivateRoute>
+          </Switch>
+        </div>
+      </Router>
+    </ItemProvider>
   );
 }
 
