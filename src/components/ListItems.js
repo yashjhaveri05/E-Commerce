@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useContext} from 'react';
 import {Grid,Card} from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 import "../index.css";
@@ -6,9 +6,6 @@ import Item from './Item';
 import { ItemContext } from './ItemContext';
 
 const useStyles = makeStyles((theme) => ({
-    app: {
-      background: "#b2b2b2",
-    },
     grid: {
       marginLeft: 50,
       marginRight: 50,
@@ -18,14 +15,14 @@ const useStyles = makeStyles((theme) => ({
 
 const ListItems = () => {
     const classes = useStyles();
-    const [items,setItems] = useContext(ItemContext);
+    const [items] = useContext(ItemContext);
     return (
         <div className={classes.app}>
           <div className={classes.grid}>
             <Grid container spacing={2} justify="flex-start" alignItems="flex-start">
-              {items.map(item => (
+              {items[0].map(item => (
                   <Grid item xs={12} sm={12} md={3}  key={item.id}>
-                    <Card className="Items">
+                    <Card className={classes.items}>
                       <Item
                           key={item.id}
                           id={item.id}

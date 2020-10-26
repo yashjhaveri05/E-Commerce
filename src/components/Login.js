@@ -17,21 +17,20 @@ const useStyles = makeStyles((theme) => ({
     btn: {
         marginTop: 20,
         marginBottom: 20,
-        backgroundColor: "#ddfbd2",
-        color: "black",
     },
     card: {
-        marginTop: 20,
+        marginTop: 50,
+        marginLeft: 10,
+        marginRight: 10,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         textAlign: "center",
-        backgroundColor: "#6b7fd7",
+        backgroundColor: "white",
         border: "6px solid black"
     },
     input: {
-        backgroundColor: "#ddfbd2",
-        color: "black",
+        color: "white",
     },
     label: {
         fontSize: "1.3rem",
@@ -53,8 +52,9 @@ const Login = () => {
 
     return (
         <div>
-            <Grid item xs={12} sm={12} md={6}></Grid>
-            <Grid item xs={12} sm={12} md={6}>
+        <Grid container spacing={2} justify="flex-start" alignItems="flex-start">
+            <Grid item xs={0} sm={0} md={4}></Grid>
+            <Grid item xs={12} sm={12} md={4}>
                 <Card className={classes.card}>
                     <h1><u>Login</u></h1>  
                     <form onSubmit={submitHandler} className={classes.form} >
@@ -65,6 +65,7 @@ const Login = () => {
                         <Button variant="contained" color="secondary" type='submit' className={classes.btn} >Submit</Button>
                     </form>
                 </Card>
+            </Grid>
             </Grid>
         </div>
     );

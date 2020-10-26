@@ -28,7 +28,12 @@ const useStyles = makeStyles((theme) => ({
           marginLeft : 20,
           marginRight : 20,
       },
-
+      content : {
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          textAlign: "center",
+      },
   }));
 
 export default function Detail() {
@@ -36,24 +41,27 @@ export default function Detail() {
 
     const { id } = useParams();
     const [product] = useContext(ItemContext);
-    const item = product[id-1];
+    const item = product[0][id-1]
     return (
         <div className="ProductDetail">
             <Card className={classes.card}>
+                <br />
+                <br />
+                {console.log(item)}
                 <Grid container spacing={2}>
-                        <Grid item classname={classes.layout}>
+                        <Grid item className={classes.layout}>
                             <ButtonBase className={classes.image}>
                                 <img className={classes.img} src={item.images} alt={item.title}/>
                             </ButtonBase>
                         </Grid>
                         <Grid item xs={12} sm container>
-                            <Grid item xs container direction="column" spacing={0} className="Grid">
+                            <Grid item xs container direction="column" spacing={0} className={classes.content}>
                                     <CardContent>
-                                        <Typography variant="p" className="title">
+                                        <Typography variant="h2" className="title">
                                             {item.title}
                                         </Typography>
                                         <Typography variant="h4" gutterBottom className="Date">
-                                            {item.price}
+                                            ₹{item.price}
                                         </Typography>
                                         <Typography variant="h5" gutterBottom>
                                             {item.company}
@@ -65,8 +73,9 @@ export default function Detail() {
                             </Grid>
                         </Grid>
                     </Grid>
+                    <br />
+                    <br />
                 </Card>
-            <h1>{item.id}</h1>
         </div>
     )
 }

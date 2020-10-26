@@ -5,6 +5,8 @@ import "./index.css";
 import ListItems from './components/ListItems';
 import Login from './components/Login';
 import Detail from './components/Detail';
+import Cart from './components/Cart';
+import Compare from './components/Compare';
 import {ItemProvider} from './components/ItemContext';
 import Navbar from './components/Navbar';
 
@@ -28,6 +30,26 @@ function PrivateRoute({ children, ...rest }) {
   );
 }
 
+function SignedInRoute({ children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        !localStorage.getItem('logged') ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/",
+              state: { from: location }
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+
 function App(){
   return (
     <ItemProvider>
@@ -35,9 +57,17 @@ function App(){
         <div className="App">
         <Navbar />
           <Switch>
-            <Route path="/login" exact component={Login} />
+            <SignedInRoute path="/login">
+              <Login />
+            </SignedInRoute>
             <Route path="/" exact component={ListItems}  />
-            <PrivateRoute path="/:id">
+            <PrivateRoute path="/cart" exact>
+              <Cart />
+            </PrivateRoute>
+            <PrivateRoute path="/compare" exact>
+              <Compare />
+            </PrivateRoute>
+            <PrivateRoute path="/:id" exact>
               <Detail />
             </PrivateRoute>
           </Switch>

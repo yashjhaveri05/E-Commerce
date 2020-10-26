@@ -11,19 +11,15 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    display: "flex",
-    flexDirection: "row",
-    textAlign: "center",
-    justifyContent: "center",
   },
   appBar: {
     top: 'auto',
     bottom: 0,
-    backgroundColor: "rgb(107, 127, 215)",
+    backgroundColor: "black",
   },
   Link: {
-    color: "black",
-  }
+    color: "white",
+  },
 }));
 
 export default function Navbar() {
@@ -43,7 +39,7 @@ export default function Navbar() {
           {
             localStorage.getItem('logged') ? 
             <div>
-                <Button>Cart</Button>
+                <Button><Link to="/cart" className={classes.Link}>Cart</Link></Button>
                 <Button onClick={logoutHandler}><Link to="/login" className={classes.Link}>Logout</Link></Button>
             </div> : <Button><Link to="/login" className={classes.Link}>Login</Link></Button>
           }
