@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { Grid,Card,CardContent,Typography } from '@material-ui/core';
+import { Grid,ButtonBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -29,12 +29,30 @@ const useStyles = makeStyles({
     },
     text: {
         color: "white",
-    }
+        textAlign: "center",
+    },
+    align: {
+        textAlign: "center",
+    },
+    image: {
+        height: 200,
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 10,
+      },
+    img: {
+        margin: 'auto',
+        display: 'block',
+        maxWidth: '100%',
+        maxHeight: '100%',
+    },
   });
 
 const Compare = () => {
     const classes = useStyles();
-
+    const data = useContext(ItemContext);
+    const temp1 = data[2][0][0]
+    const temp2 = data[2][0][1]
     return (
         <div>
            <Grid container spacing={2} justify="flex-start" alignItems="flex-start">
@@ -50,16 +68,32 @@ const Compare = () => {
                             </TableHead>
                             <TableBody>
                                 <TableRow key="1">
-                                    <TableCell component="th" scope="row">Suit</TableCell>
-                                    <TableCell align="right">Iphone</TableCell>
+                                    <TableCell component="th" scope="row" className={classes.align}>
+                                        <ButtonBase className={classes.image}>
+                                            <img className={classes.img} src={temp1.images} alt={temp1.title}/>
+                                        </ButtonBase>
+                                    </TableCell>
+                                    <TableCell align="right" className={classes.align}>
+                                        <ButtonBase className={classes.image}>
+                                            <img className={classes.img} src={temp2.images} alt={temp2.title}/>
+                                        </ButtonBase>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow key="1">
+                                    <TableCell component="th" scope="row" className={classes.align}>{temp1.title}</TableCell>
+                                    <TableCell align="right" className={classes.align}>{temp2.title}</TableCell>
                                 </TableRow>
                                 <TableRow key="2">
-                                    <TableCell component="th" scope="row">Raymond</TableCell>
-                                    <TableCell align="right">Apple</TableCell>
+                                    <TableCell component="th" scope="row" className={classes.align}>{temp1.company}</TableCell>
+                                    <TableCell align="right" className={classes.align}>{temp2.company}</TableCell>
                                 </TableRow>
                                 <TableRow key="3">
-                                    <TableCell component="th" scope="row">10000</TableCell>
-                                    <TableCell align="right">35000</TableCell>
+                                    <TableCell component="th" scope="row" className={classes.align}>{temp1.price}</TableCell>
+                                    <TableCell align="right" className={classes.align}>{temp2.price}</TableCell>
+                                </TableRow>
+                                <TableRow key="4">
+                                    <TableCell component="th" scope="row" className={classes.align}>{temp1.info}</TableCell>
+                                    <TableCell align="right" className={classes.align}>{temp2.info}</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>

@@ -30,7 +30,7 @@ const ListItems = () => {
                           price={item.price}
                           company={item.company}
                           info={item.info}
-                          image={item.images}
+                          images={item.images}
                       /> 
                     </Card>
                   </Grid>

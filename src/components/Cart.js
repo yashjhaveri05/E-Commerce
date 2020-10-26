@@ -1,5 +1,5 @@
-import React, {useContext} from 'react';
-import { Grid,Card,CardContent,Typography } from '@material-ui/core';
+import React, {useContext,useState} from 'react';
+import { Grid,Card,CardContent,Typography,TextField,Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,7 +10,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import "../index.css";
 import { ItemContext } from './ItemContext';
-
 const useStyles = makeStyles({
     root: {
         marginLeft: 20,
@@ -31,10 +30,12 @@ const useStyles = makeStyles({
         color: "white",
     }
   });
-
 const Cart = () => {
     const classes = useStyles();
-
+    const data = useContext(ItemContext);
+    const [quantity,setQuantity] = useState(1);
+    const [total,setTotal] = useState(0);
+    console.log('data: ',data)
     return (
         <div>
            <Grid container spacing={2} justify="flex-start" alignItems="flex-start">
@@ -46,16 +47,42 @@ const Cart = () => {
                                 <TableCell className={classes.text}>Item Id</TableCell>
                                 <TableCell className={classes.text} align="right">Name</TableCell>
                                 <TableCell className={classes.text} align="right">Quantity</TableCell>
-                                <TableCell className={classes.text} align="right">Price</TableCell>
+                                <TableCell className={classes.text} align="right">Price/Quantity</TableCell>
+                                <TableCell className={classes.text} align="right"></TableCell>
                             </TableRow>
                             </TableHead>
                             <TableBody>
-                                <TableRow key="1">
-                                <TableCell component="th" scope="row">1</TableCell>
-                                <TableCell align="right">Suit</TableCell>
-                                <TableCell align="right">1</TableCell>
-                                <TableCell align="right">10000</TableCell>
-                                </TableRow>
+                                {
+                                    data[1][0].map(temp => {
+                                        return <TableRow key={temp.pid}>
+                                            <TableCell component="th" scope="row">{temp.pid}</TableCell>
+                                            <TableCell align="right">{temp.name}</TableCell>
+                                            <TableCell align="right">
+                                                <TextField
+                                                    id="standard-number"
+                                                    label="Number"
+                                                    type="number"
+                                                    value={quantity}
+                                                    onChange={(e)=>setQuantity(e.target.value)}
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                />
+                                            </TableCell>
+                                            <TableCell align="right">{temp.amt}</TableCell>
+                                            <TableCell align="right">
+                                            <Button
+                                                variant="contained"
+                                                color="secondary"
+                                                className={classes.button}
+                                                /*onClick={(e) => data[1][0].filter((item) => item.id !== data[1][0].indexOf(e.target.value))}*/
+                                            >
+                                                Delete
+                                            </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    })
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -66,11 +93,14 @@ const Cart = () => {
                             <Typography color="textSecondary" gutterBottom>
                                 Order Summary
                             </Typography>
-                            <Typography variant="h5" component="h2">
-                                Suit x 1=   10000
-                            </Typography>
-                            <Typography className={classes.pos} color="textSecondary">
-                                Total = 10000
+                            {data[1][0].map(temp => {
+                                return <Typography variant="h5" component="h2">
+                                    {temp.name} x {quantity}
+                                </Typography>
+                                    })
+                            }
+                            <Typography color="textSecondary" gutterBottom>
+                                Total = {total}
                             </Typography>
                         </CardContent>
                  </Card>
@@ -79,5 +109,4 @@ const Cart = () => {
         </div>
       ); 
 }
-
 export default Cart;

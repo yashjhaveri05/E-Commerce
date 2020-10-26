@@ -40,6 +40,7 @@ export default function Navbar() {
             localStorage.getItem('logged') ? 
             <div>
                 <Button><Link to="/cart" className={classes.Link}>Cart</Link></Button>
+                <Button><Link to="/compare" className={classes.Link}>Compare</Link></Button>
                 <Button onClick={logoutHandler}><Link to="/login" className={classes.Link}>Logout</Link></Button>
             </div> : <Button><Link to="/login" className={classes.Link}>Login</Link></Button>
           }
