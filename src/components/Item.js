@@ -39,24 +39,17 @@ const Item = ({ id, title, price, company, images, info, test }) => {
         <Button
          variant="outlined"
          color="primary"
-         onClick={() => data[1][1]([...data[1][0],{pid:id,name:title,amt:price}])}
+         onClick={() => data[1][1]([...data[1][0],{pid:id,name:title,amt:price,qty:1,cart_flag:true}])}
         >
           Add to Cart
         </Button>
-        {data[2][0].length>=2 ? 
-          <Button
-          variant="outlined"
-          disabled
-          >
-            Add to Compare
-          </Button> : 
         <Button
          variant="outlined"
          color="primary"
-         onClick={() => data[2][1]([...data[2][0],{id:id,title:title,price:price,company:company,info:info,images:images}])}
+         onClick={() => data[2][1]([...data[2][0],{id:id,title:title,price:price,company:company,info:info,images:images,compare_flag:true}])}
         >
           Add to Compare
-        </Button>}
+        </Button>
       </div>
     </div>
   );

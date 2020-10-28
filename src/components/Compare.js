@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { Grid,ButtonBase } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,13 +13,7 @@ import { ItemContext } from './ItemContext';
 
 const useStyles = makeStyles({
     root: {
-        marginLeft: 20,
         marginTop: 20,
-    },
-    root1: {
-        marginLeft: 20,
-        marginTop: 20,
-        marginRight: 20,
     },
     table: {
       minWidth: 650,
@@ -34,72 +28,44 @@ const useStyles = makeStyles({
     align: {
         textAlign: "center",
     },
-    image: {
-        height: 200,
-        marginTop: 10,
-        marginBottom: 10,
-        marginLeft: 10,
-      },
-    img: {
-        margin: 'auto',
-        display: 'block',
-        maxWidth: '100%',
-        maxHeight: '100%',
-    },
   });
 
 const Compare = () => {
     const classes = useStyles();
     const data = useContext(ItemContext);
-    const temp1 = data[2][0][0]
-    const temp2 = data[2][0][1]
     return (
         <div>
-           <Grid container spacing={2} justify="flex-start" alignItems="flex-start">
-                <Grid item xs={0} sm={0} md={3}></Grid>
-                <Grid item xs={12} sm={12} md={6}>
+            {data[2][0].length !== 0 ?
+            <Grid container spacing={2} justify="flex-start" alignItems="flex-start">
+                <Grid item xs={12} sm={12} md={12}>
                     <TableContainer component={Paper} className={classes.root}>
                         <Table className={classes.table} size="small" aria-label="a dense table">
                             <TableHead>
-                            <TableRow className={classes.header}>
-                                <TableCell className={classes.text}>Item 1</TableCell>
-                                <TableCell className={classes.text} align="right">Item 2</TableCell>
-                            </TableRow>
+                                <TableRow className={classes.header}>
+                                    <TableCell className={classes.text}>Title</TableCell>
+                                    <TableCell className={classes.text}>Price</TableCell>
+                                    <TableCell className={classes.text}>Selling Partner</TableCell>
+                                    <TableCell className={classes.text}>Description</TableCell>
+                                </TableRow>
                             </TableHead>
                             <TableBody>
-                                <TableRow key="1">
-                                    <TableCell component="th" scope="row" className={classes.align}>
-                                        <ButtonBase className={classes.image}>
-                                            <img className={classes.img} src={temp1.images} alt={temp1.title}/>
-                                        </ButtonBase>
-                                    </TableCell>
-                                    <TableCell align="right" className={classes.align}>
-                                        <ButtonBase className={classes.image}>
-                                            <img className={classes.img} src={temp2.images} alt={temp2.title}/>
-                                        </ButtonBase>
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow key="1">
-                                    <TableCell component="th" scope="row" className={classes.align}>{temp1.title}</TableCell>
-                                    <TableCell align="right" className={classes.align}>{temp2.title}</TableCell>
-                                </TableRow>
-                                <TableRow key="2">
-                                    <TableCell component="th" scope="row" className={classes.align}>{temp1.company}</TableCell>
-                                    <TableCell align="right" className={classes.align}>{temp2.company}</TableCell>
-                                </TableRow>
-                                <TableRow key="3">
-                                    <TableCell component="th" scope="row" className={classes.align}>{temp1.price}</TableCell>
-                                    <TableCell align="right" className={classes.align}>{temp2.price}</TableCell>
-                                </TableRow>
-                                <TableRow key="4">
-                                    <TableCell component="th" scope="row" className={classes.align}>{temp1.info}</TableCell>
-                                    <TableCell align="right" className={classes.align}>{temp2.info}</TableCell>
-                                </TableRow>
+                                {
+                                    data[2][0].filter(compareItem => compareItem.compare_flag === true).map(temp => {
+                                        return <TableRow key={temp.pid}>
+                                            <TableCell component="th" scope="row">{temp.title}</TableCell>
+                                            <TableCell align="center">{temp.price}</TableCell>
+                                            <TableCell align="center">{temp.company}</TableCell>
+                                            <TableCell align="center">{temp.info}</TableCell>
+                                        </TableRow>
+                                    })
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>
                 </Grid>
-            </Grid> 
+            </Grid> :
+            <h4 align="center">Please Select Items To Compare</h4>
+            }
         </div>
       ); 
 }

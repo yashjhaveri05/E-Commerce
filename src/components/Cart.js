@@ -33,12 +33,13 @@ const useStyles = makeStyles({
 const Cart = () => {
     const classes = useStyles();
     const data = useContext(ItemContext);
-    const [quantity,setQuantity] = useState(1);
-    const [total,setTotal] = useState(0);
+    let totalcost = 0;
+    data[1][0].map((x) => (totalcost = totalcost + x.amt));
     console.log('data: ',data)
     return (
         <div>
-           <Grid container spacing={2} justify="flex-start" alignItems="flex-start">
+            {data[1][0].length !== 0 ?
+            <Grid container spacing={2} justify="flex-start" alignItems="flex-start">
                 <Grid item xs={12} sm={12} md={9}>
                     <TableContainer component={Paper} className={classes.root}>
                         <Table className={classes.table} size="small" aria-label="a dense table">
@@ -53,7 +54,7 @@ const Cart = () => {
                             </TableHead>
                             <TableBody>
                                 {
-                                    data[1][0].map(temp => {
+                                    data[1][0].filter(cartItem => cartItem.cart_flag === true).map(temp => {
                                         return <TableRow key={temp.pid}>
                                             <TableCell component="th" scope="row">{temp.pid}</TableCell>
                                             <TableCell align="right">{temp.name}</TableCell>
@@ -62,8 +63,7 @@ const Cart = () => {
                                                     id="standard-number"
                                                     label="Number"
                                                     type="number"
-                                                    value={quantity}
-                                                    onChange={(e)=>setQuantity(e.target.value)}
+                                                    value={temp.qty}
                                                     InputLabelProps={{
                                                         shrink: true,
                                                     }}
@@ -75,9 +75,8 @@ const Cart = () => {
                                                 variant="contained"
                                                 color="secondary"
                                                 className={classes.button}
-                                                /*onClick={(e) => data[1][0].filter((item) => item.id !== data[1][0].indexOf(e.target.value))}*/
                                             >
-                                                Delete
+                                                Remove From Cart
                                             </Button>
                                             </TableCell>
                                         </TableRow>
@@ -95,17 +94,19 @@ const Cart = () => {
                             </Typography>
                             {data[1][0].map(temp => {
                                 return <Typography variant="h5" component="h2">
-                                    {temp.name} x {quantity}
+                                    {temp.name} x {temp.qty}
                                 </Typography>
                                     })
                             }
                             <Typography color="textSecondary" gutterBottom>
-                                Total = {total}
+                                Total = {totalcost}
                             </Typography>
                         </CardContent>
                  </Card>
                 </Grid>
-            </Grid> 
+            </Grid> :
+            <h4 align="center">Please Add Items To Cart</h4>
+            }
         </div>
       ); 
 }
