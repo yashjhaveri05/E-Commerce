@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid,Button,ButtonBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -28,6 +28,18 @@ const useStyles = makeStyles({
     align: {
         textAlign: "center",
     },
+    image: {
+        height: 200,
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 10,
+      },
+    img: {
+        margin: 'auto',
+        display: 'block',
+        maxWidth: '100%',
+        maxHeight: '100%',
+    },
   });
 
 const Compare = () => {
@@ -37,34 +49,72 @@ const Compare = () => {
         <div>
             {data[2][0].length !== 0 ?
             <Grid container spacing={2} justify="flex-start" alignItems="flex-start">
-                <Grid item xs={12} sm={12} md={12}>
+                <Grid item xs={1} sm={1} md={1}></Grid>
+                <Grid item xs={10} sm={10} md={10}>
                     <TableContainer component={Paper} className={classes.root}>
                         <Table className={classes.table} size="small" aria-label="a dense table">
                             <TableHead>
                                 <TableRow className={classes.header}>
-                                    <TableCell className={classes.text}>Title</TableCell>
-                                    <TableCell className={classes.text}>Price</TableCell>
-                                    <TableCell className={classes.text}>Selling Partner</TableCell>
-                                    <TableCell className={classes.text}>Description</TableCell>
+                                    <TableCell className={classes.text}></TableCell>
+                                    {data[2][0].map(temp => {
+                                    return <TableCell className={classes.text} key={temp.id}>{temp.title}</TableCell>
+                                    })}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {
-                                    data[2][0].filter(compareItem => compareItem.compare_flag === true).map(temp => {
-                                        return <TableRow key={temp.pid}>
-                                            <TableCell component="th" scope="row">{temp.title}</TableCell>
-                                            <TableCell align="center">{temp.price}</TableCell>
-                                            <TableCell align="center">{temp.company}</TableCell>
-                                            <TableCell align="center">{temp.info}</TableCell>
-                                        </TableRow>
-                                    })
-                                }
+                                <TableRow>
+                                    <TableCell>Image</TableCell>
+                                    {data[2][0].map(temp => {
+                                    return <TableCell key={temp.id} className={classes.align}>
+                                                <ButtonBase className={classes.image}>
+                                                    <img className={classes.img} src={temp.images} alt={temp.title}/>
+                                                </ButtonBase>
+                                            </TableCell>
+                                    })}
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Price</TableCell>
+                                    {data[2][0].map(temp => {
+                                    return <TableCell className={classes.align} key={temp.id}>₹{temp.price}</TableCell>
+                                    })}
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Company</TableCell>
+                                    {data[2][0].map(temp => {
+                                    return <TableCell className={classes.align} key={temp.id}>{temp.company}</TableCell>
+                                    })}
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Description</TableCell>
+                                    {data[2][0].map(temp => {
+                                    return <TableCell className={classes.align} key={temp.id}>{temp.info}</TableCell>
+                                    })}
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell></TableCell>
+                                    {data[2][0].map(temp => {
+                                    return <TableCell key={temp.id} className={classes.align}>
+                                                <Button
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    className={classes.button}
+                                                    onClick={() => {
+                                                        data[2][1](compare_items => compare_items.filter(item => item.id!==temp.id))
+                                                        data[0][1](items => items.map(item => item.id===temp.id?{...item,compare_flag:!item.compare_flag}:item));
+                                                    }}
+                                                >
+                                                    Remove
+                                                </Button>
+                                            </TableCell>
+                                    })}
+                                </TableRow>
                             </TableBody>
                         </Table>
                     </TableContainer>
                 </Grid>
-            </Grid> :
-            <h4 align="center">Please Select Items To Compare</h4>
+                <Grid item xs={1} sm={1} md={1}></Grid>
+            </Grid> : 
+            <h4 className={classes.align}>Please Select Items To Compare</h4>
             }
         </div>
       ); 

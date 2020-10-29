@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
       card: {
           margin: "auto",
           maxWidth: "fit-content",
+          maxHeight: "90vh",
       },
       image: {
           height: 500,
@@ -45,8 +46,6 @@ export default function Detail() {
     return (
         <div className="ProductDetail">
             <Card className={classes.card}>
-                <br />
-                <br />
                 {console.log(item)}
                 <Grid container spacing={2}>
                         <Grid item className={classes.layout}>
@@ -73,8 +72,6 @@ export default function Detail() {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <br />
-                    <br />
                 </Card>
         </div>
     )

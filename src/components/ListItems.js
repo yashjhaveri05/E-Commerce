@@ -31,6 +31,8 @@ const ListItems = () => {
                           company={item.company}
                           info={item.info}
                           images={item.images}
+                          cart_flag={item.cart_flag}
+                          compare_flag={item.compare_flag}
                       /> 
                     </Card>
                   </Grid>

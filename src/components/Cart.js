@@ -1,4 +1,4 @@
-import React, {useContext,useState} from 'react';
+import React, {useContext} from 'react';
 import { Grid,Card,CardContent,Typography,TextField,Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -34,8 +34,7 @@ const Cart = () => {
     const classes = useStyles();
     const data = useContext(ItemContext);
     let totalcost = 0;
-    data[1][0].map((x) => (totalcost = totalcost + x.amt));
-    console.log('data: ',data)
+    data[1][0].map((x) => (totalcost = totalcost + (x.amt*x.qty)));
     return (
         <div>
             {data[1][0].length !== 0 ?
@@ -54,7 +53,7 @@ const Cart = () => {
                             </TableHead>
                             <TableBody>
                                 {
-                                    data[1][0].filter(cartItem => cartItem.cart_flag === true).map(temp => {
+                                    data[1][0].map(temp => {
                                         return <TableRow key={temp.pid}>
                                             <TableCell component="th" scope="row">{temp.pid}</TableCell>
                                             <TableCell align="right">{temp.name}</TableCell>
@@ -67,14 +66,19 @@ const Cart = () => {
                                                     InputLabelProps={{
                                                         shrink: true,
                                                     }}
+                                                    onChange={e => data[1][1](items => items.map(item => item.pid===temp.pid?{...item,qty:e.target.value}:item))}
                                                 />
                                             </TableCell>
-                                            <TableCell align="right">{temp.amt}</TableCell>
+                                            <TableCell align="right">₹{temp.amt}</TableCell>
                                             <TableCell align="right">
                                             <Button
                                                 variant="contained"
                                                 color="secondary"
                                                 className={classes.button}
+                                                onClick={() => {
+                                                    data[1][1](cart_items => cart_items.filter(item => item.pid!==temp.pid))
+                                                    data[0][1](items => items.map(item => item.id===temp.pid?{...item,cart_flag:!item.cart_flag}:item));
+                                                }}
                                             >
                                                 Remove From Cart
                                             </Button>
@@ -99,7 +103,7 @@ const Cart = () => {
                                     })
                             }
                             <Typography color="textSecondary" gutterBottom>
-                                Total = {totalcost}
+                                Total = ₹{totalcost}
                             </Typography>
                         </CardContent>
                  </Card>

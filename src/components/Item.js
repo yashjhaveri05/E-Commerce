@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "center",
     },
 }));
-const Item = ({ id, title, price, company, images, info, test }) => {
+const Item = ({ id, title, price, company, images, info, cart_flag, compare_flag }) => {
   const classes = useStyles();
   const data = useContext(ItemContext);
   return (
@@ -36,20 +36,56 @@ const Item = ({ id, title, price, company, images, info, test }) => {
         <Typography variant="h6" component="h6">
           {company}
         </Typography>
-        <Button
+        {
+          !cart_flag && <Button
          variant="outlined"
          color="primary"
-         onClick={() => data[1][1]([...data[1][0],{pid:id,name:title,amt:price,qty:1,cart_flag:true}])}
+         onClick={() => {
+            data[1][1]([...data[1][0],{pid:id,name:title,amt:price,qty:1}])
+            data[0][1](items => items.map(item => item.id===id?{...item,cart_flag:!item.cart_flag}:item));
+          }
+        }
         >
           Add to Cart
         </Button>
-        <Button
+        }
+        {
+          cart_flag && <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => {
+            data[1][1](cart_items => cart_items.filter(item => item.pid!==id));
+            data[0][1](items => items.map(item => item.id===id?{...item,cart_flag:!item.cart_flag}:item));
+          }}
+        >
+          Remove from Cart
+        </Button>
+        }
+        {
+          !compare_flag && <Button
          variant="outlined"
          color="primary"
-         onClick={() => data[2][1]([...data[2][0],{id:id,title:title,price:price,company:company,info:info,images:images,compare_flag:true}])}
+         onClick={() => {
+            data[2][1]([...data[2][0],{id:id,title:title,price:price,company:company,info:info,images:images}])
+            data[0][1](items => items.map(item => item.id===id?{...item,compare_flag:!item.compare_flag}:item));
+          }
+        }
         >
-          Add to Compare
+          Compare
         </Button>
+        }
+        {
+          compare_flag && <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => {
+            data[2][1](compare_items => compare_items.filter(item => item.id!==id))
+            data[0][1](items => items.map(item => item.id===id?{...item,compare_flag:!item.compare_flag}:item));
+          }}
+        >
+          Remove
+        </Button>
+        }
       </div>
     </div>
   );
