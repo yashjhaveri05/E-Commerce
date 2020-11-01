@@ -12,9 +12,6 @@ import "../index.css";
 import { ItemContext } from './ItemContext';
 
 const useStyles = makeStyles({
-    root: {
-        marginTop: 20,
-    },
     table: {
       minWidth: 650,
     },

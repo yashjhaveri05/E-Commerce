@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
     grid: {
       marginLeft: 50,
       marginRight: 50,
-      marginTop: 30, 
     },
   }));
 

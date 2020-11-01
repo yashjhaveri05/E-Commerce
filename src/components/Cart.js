@@ -13,11 +13,9 @@ import { ItemContext } from './ItemContext';
 const useStyles = makeStyles({
     root: {
         marginLeft: 20,
-        marginTop: 20,
     },
     root1: {
         marginLeft: 20,
-        marginTop: 20,
         marginRight: 20,
     },
     table: {
